@@ -304,6 +304,8 @@ Note: iOS only supports `auto` currently.
 
 |  Method      |  android |   ios   |  description |
 |  :---  |   :---:  |  :---:  |     :---    |
+| startProximitySensor()    | :rage: | :smile: | activate the proximity sensor |
+| stopProximitySensor()     | :rage: | :smile: | deactivate the proximity sensor |
 | start(`{media: ?string, auto: ?boolean, ringback: ?string}`)   | :smile: | :smile: | start incall manager.</br> ringback accept non-empty string or it won't play</br>default: `{media:'audio', auto: true, ringback: ''}`  |
 | stop(`{busytone: ?string}`)   | :smile: | :smile: | stop incall manager</br> busytone accept non-empty string or it won't play</br> default: `{busytone: ''}` |
 | turnScreenOn()   | :smile: | :rage: | force turn screen on |
