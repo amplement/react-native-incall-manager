@@ -286,9 +286,11 @@ RCT_EXPORT_METHOD(setSpeakerphoneOn:(BOOL)enable)
 
 RCT_EXPORT_METHOD(setForceSpeakerphoneOn:(int)flag)
 {
-    _forceSpeakerOn = flag;
-    NSLog(@"RNInCallManager.setForceSpeakerphoneOn(): flag: %d", flag);
-    [self updateAudioRoute];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _forceSpeakerOn = flag;
+        NSLog(@"RNInCallManager.setForceSpeakerphoneOn(): flag: %d", flag);
+        [self updateAudioRoute];
+    });
 }
 
 RCT_EXPORT_METHOD(setMicrophoneMute:(BOOL)enable)
@@ -759,8 +761,9 @@ RCT_EXPORT_METHOD(startProximitySensor)
     }
 
     NSLog(@"RNInCallManager.startProximitySensor()");
-    // _currentDevice.proximityMonitoringEnabled = YES;
-    _currentDevice.proximityMonitoringEnabled = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _currentDevice.proximityMonitoringEnabled = YES; 
+    });
 
     // --- in case it didn't deallocate when ViewDidUnload
     [self stopObserve:_proximityObserver
@@ -789,8 +792,10 @@ RCT_EXPORT_METHOD(stopProximitySensor)
     }
 
     NSLog(@"RNInCallManager.stopProximitySensor()");
-    _currentDevice.proximityMonitoringEnabled = NO;
-
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _currentDevice.proximityMonitoringEnabled = NO; 
+    });
+    
     // --- remove all no matter what object
     [self stopObserve:_proximityObserver
                  name:UIDeviceProximityStateDidChangeNotification
