@@ -563,23 +563,23 @@ RCT_EXPORT_METHOD(getIsWiredHeadsetPluggedIn:(RCTPromiseResolveBlock)resolve
         overrideAudioPortString = @".Speaker";
         if ([_media isEqualToString:@"video"]) {
             audioMode = AVAudioSessionModeVideoChat;
-            [self stopProximitySensor];
         }
+        [self stopProximitySensor];
     } else if (_forceSpeakerOn == -1) {
         // --- force off
         overrideAudioPort = AVAudioSessionPortOverrideNone;
         overrideAudioPortString = @".None";
         if ([_media isEqualToString:@"video"]) {
             audioMode = AVAudioSessionModeVoiceChat;
-            [self startProximitySensor];
         }
+        [self startProximitySensor];
     } else { // use default behavior
         overrideAudioPort = AVAudioSessionPortOverrideNone;
         overrideAudioPortString = @".None";
         if ([_media isEqualToString:@"video"]) {
             audioMode = AVAudioSessionModeVideoChat;
-            [self stopProximitySensor];
         }
+        [self startProximitySensor];
     }
 
     BOOL isCurrentRouteToSpeaker;
@@ -752,7 +752,7 @@ RCT_EXPORT_METHOD(getIsWiredHeadsetPluggedIn:(RCTPromiseResolveBlock)resolve
                    callerMemo:NSStringFromSelector(_cmd)];
 }
 
-- (void)startProximitySensor
+- RCT_EXPORT_METHOD(startProximitySensor)
 {
     if (_isProximityRegistered) {
         return;
@@ -760,7 +760,7 @@ RCT_EXPORT_METHOD(getIsWiredHeadsetPluggedIn:(RCTPromiseResolveBlock)resolve
 
     NSLog(@"RNInCallManager.startProximitySensor()");
     // _currentDevice.proximityMonitoringEnabled = YES;
-    _currentDevice.proximityMonitoringEnabled = NO;
+    _currentDevice.proximityMonitoringEnabled = YES;
 
     // --- in case it didn't deallocate when ViewDidUnload
     [self stopObserve:_proximityObserver
@@ -782,7 +782,7 @@ RCT_EXPORT_METHOD(getIsWiredHeadsetPluggedIn:(RCTPromiseResolveBlock)resolve
     _isProximityRegistered = YES;
 }
 
-- (void)stopProximitySensor
+- RCT_EXPORT_METHOD(stopProximitySensor)
 {
     if (!_isProximityRegistered) {
         return;
